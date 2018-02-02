@@ -1,0 +1,95 @@
+apply plugin: 'idea'
+
+group 'org.denki'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.2.10'
+    ext.temp_dir = 'temp'
+    ext.export_dir = 'export'
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin2js'
+
+sourceSets {
+    main.kotlin.srcDirs += "src"
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlinx:kotlinx-html-js:0.6.8"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+}
+
+compileKotlin2Js {
+    kotlinOptions.outputFile = "${projectDir}/${temp_dir}/aurora_export.js"
+}
+
+clean.doFirst() {
+    delete("${temp_dir}")
+}
+
+build.doLast() {
+    // Copy kotlin.js and kotlin-meta.js from jar into web directory
+    configurations.compile.each { File file ->
+        copy {
+            includeEmptyDirs = false
+
+            from zipTree(file.absolutePath)
+            into "${projectDir}/${temp_dir}/lib"
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
+            }
+        }
+    }
+
+    // Unpack build contents
+    copy {
+        File artifact = new File("build/libs/${project.name}-${project.version}.jar")
+        includeEmptyDirs = false
+
+        from zipTree(artifact)
+        into "${temp_dir}"
+        include { fileTreeElement ->
+            def path = fileTreeElement.path
+            !(path.startsWith("META-INF/") || path.startsWith("${project.name}"))
+        }
+    }
+
+    // Copy scripts to web directory
+    copy {
+        includeEmptyDirs = false
+        from new File("build/classes/main")
+        into "${temp_dir}/lib"
+    }
+
+    copy {
+        includeEmptyDirs = false
+        from new File("build/classes/test")
+        into "${temp_dir}/lib"
+    }
+
+    copy {
+        includeEmptyDirs = false
+        from new File("build/resources/test")
+        into "${temp_dir}"
+    }
+
+    (new File("${export_dir}")).mkdirs()
+    (new File("${export_dir}/aurora_export.js")).text = files("${temp_dir}/lib/kotlin.js", "${temp_dir}/lib/kotlinx-html-js.js", "${temp_dir}/aurora_export.js")
+            .collect{it.getText()}.join("\n")
+
+    delete("${temp_dir}")
+}
