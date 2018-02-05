@@ -76,7 +76,7 @@ object Main {
                     br()
                     +"Diese Seite kann auf zwei Arten permanent gespeichert werden:"
                     ol {
-                        li {+"(bevorzugt) Mit der Tastenkombination Strg+S erlauben es die meisten Browser, eine HTML-Seite samt Bildern lokal abzuspeichern. Dabei werden eine HTMl-Datei und ein gleichnamiger Unterordner erzeugt."}
+                        li {+"(bevorzugt) Mit der Tastenkombination Strg+S erlauben es die meisten Browser, eine HTML-Seite samt Bildern lokal abzuspeichern. Dabei werden eine HTML-Datei und ein gleichnamiger Unterordner erzeugt."}
                         li {+"Ausdrucken. Mit der Tastenkombination Strg+P kann man einen Ausdruck der Seite erstellen. Oft wird dabei vom Betriebssystem auch ein 'PDF-Drucker' angeboten, mit dem man den Ausdruck in eine PDF-Datei umleiten kann. (Achtung: dauert recht lange)"}
                     }
                     br()

@@ -54273,7 +54273,7 @@ var aurora_export = function (_, Kotlin, $module$kotlinx_html_js) {
     return Unit;
   }
   function Main$start$lambda$lambda$lambda$lambda$lambda($receiver) {
-    $receiver.unaryPlus_pdl1vz$('(bevorzugt) Mit der Tastenkombination Strg+S erlauben es die meisten Browser, eine HTML-Seite samt Bildern lokal abzuspeichern. Dabei werden eine HTMl-Datei und ein gleichnamiger Unterordner erzeugt.');
+    $receiver.unaryPlus_pdl1vz$('(bevorzugt) Mit der Tastenkombination Strg+S erlauben es die meisten Browser, eine HTML-Seite samt Bildern lokal abzuspeichern. Dabei werden eine HTML-Datei und ein gleichnamiger Unterordner erzeugt.');
     return Unit;
   }
   function Main$start$lambda$lambda$lambda$lambda$lambda_0($receiver) {
